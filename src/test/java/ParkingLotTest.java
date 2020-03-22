@@ -9,4 +9,11 @@ public class ParkingLotTest {
         String welcomeCheck = welcomeMessage.getWelcomeMessage();
         Assert.assertEquals(welcomeCheck, "Welcome");
     }
+
+    @Test
+    public void givenParkingLotAnalyser_ForDriverParking_ShouldReturnTrue() {
+        ParkingLotAnalyser checkForParking = new ParkingLotAnalyser();
+        boolean CheckparkingCar = checkForParking.parkingCar(new Object());
+        Assert.assertTrue("true", CheckparkingCar);
+    }
 }

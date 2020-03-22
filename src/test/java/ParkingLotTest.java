@@ -32,7 +32,7 @@ public class ParkingLotTest {
     @Test
     public void givenParkingLot_CheckForOwner_IfFull_ShouldReturnTrue() {
         ParkingLotOwner parkingLotOwner = new ParkingLotOwner();
-        boolean checkForLot = parkingLotOwner.checkForLot(new Object());
+        boolean checkForLot = parkingLotOwner.checkForLotSize(new Object());
         Assert.assertEquals(true, checkForLot);
     }
 
@@ -47,7 +47,7 @@ public class ParkingLotTest {
     @Test
     public void givenParkingLot_CheckForAirportSecurity_IfSlotIsFull_ShouldReturnTrue() {
         AirportSecurity airportSecurity = new AirportSecurity();
-        boolean checkForLot = airportSecurity.checkForLot(new Object());
+        boolean checkForLot = airportSecurity.checkForLotSize(new Object());
         Assert.assertEquals(true, checkForLot);
     }
 

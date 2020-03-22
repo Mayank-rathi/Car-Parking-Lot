@@ -1,4 +1,5 @@
 import carParkingLot.ParkingLotAnalyser;
+import carParkingLot.ParkingLotOwner;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -23,4 +24,19 @@ public class ParkingLotTest {
         boolean unParkingCar = parkingLotAnalyser.UnParkingCar(new Object());
         Assert.assertTrue("true", unParkingCar);
     }
+
+    //Check For Owner
+    @Test
+    public void givenParkingLot_CheckForOwner_IfFull_ShouldReturnTrue() {
+        ParkingLotOwner parkingLotOwner = new ParkingLotOwner();
+        boolean checkForLot = parkingLotOwner.checkForLot(new Object());
+        Assert.assertEquals(true, checkForLot);
+    }
+    @Test
+    public void givenParkingLot_CheckForOwner_IfNotFull_ShouldReturnTrue() {
+        ParkingLotOwner parkingLotOwner = new ParkingLotOwner();
+        boolean checkForLot = parkingLotOwner.checkForEmpty(new Object());
+        Assert.assertEquals(true, checkForLot);
+    }
 }
+

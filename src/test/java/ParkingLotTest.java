@@ -3,6 +3,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
+
 
 public class ParkingLotTest {
     private static ParkingLotSystem parkingLotSystem;
@@ -128,7 +130,7 @@ public class ParkingLotTest {
             boolean slotAvailable = parkingSlot.isSlotAvailable();
             parkingLotSystem.parkTheVehicle(vehicle3);
         } catch (ParkingLotException e) {
-            Assert.assertEquals(ParkingLotException.ExceptionType.SLOT_FULL, e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.PARKING_LOT_FULL, e.type);
         }
     }
 
@@ -158,7 +160,28 @@ public class ParkingLotTest {
     @Test
     public void givenParkingLot_WhenVehicleIsNotParkAndTryToFindTheVehicle_ShouldThrowException() {
         try {
-            parkingLotSystem.findVehicle(ParkingLotTest.vehicle);
+            parkingLotSystem.findVehicle(null);
+        } catch (ParkingLotException e) {
+            Assert.assertEquals(ParkingLotException.ExceptionType.NO_VEHICLE_FOUND, e.type);
+        }
+    }
+
+    @Test
+    public void givenParkingLot_WhenDriverIsNotParkVehicalAtSomeTime_ShouldThrowException() {
+        try {
+            Boolean parkVehicle = parkingLotSystem.parkTheVehicle(vehicle3);
+            boolean conditions = parkingLotSystem.timeCheck(parkVehicle);
+            Assert.assertTrue(conditions);
+        } catch (ParkingLotException e) {
+        }
+    }
+
+    @Test
+    public void givenParkingLot_WhenDriverIsParkVehicalAtSomeTime_ShouldThrowException() {
+        try {
+            Boolean parkVehicle = parkingLotSystem.parkTheVehicle(vehicle3);
+            boolean conditions = parkingLotSystem.timeCheck(null);
+            Assert.assertEquals(parkVehicle, conditions);
         } catch (ParkingLotException e) {
             Assert.assertEquals(ParkingLotException.ExceptionType.NO_VEHICLE_FOUND, e.type);
         }

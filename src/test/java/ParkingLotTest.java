@@ -3,8 +3,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.text.SimpleDateFormat;
-
 
 public class ParkingLotTest {
     private static ParkingLotSystem parkingLotSystem;
@@ -54,7 +52,7 @@ public class ParkingLotTest {
     @Test
     public void givenParkingLot_WhenFull_ShouldInfromTheOwner() {
         ParkingLotOwner owner = new ParkingLotOwner();
-        parkingLotSystem.registredParkingLotObserver(owner);
+        parkingLotSystem.registredParkingAttendant(owner);
         try {
             parkingLotSystem.parkTheVehicle(vehicle);
             parkingLotSystem.parkTheVehicle(vehicle2);
@@ -81,7 +79,7 @@ public class ParkingLotTest {
     @Test
     public void givenParkingLot_WhenLotIsFull_ShouldInfromAirPortSecurityStaff() {
         AirPortSecurityStaff airPortSecurity = new AirPortSecurityStaff();
-        parkingLotSystem.registredParkingLotObserver(airPortSecurity);
+        parkingLotSystem.registredParkingAttendant(airPortSecurity);
         try {
             parkingLotSystem.parkTheVehicle(vehicle);
             parkingLotSystem.parkTheVehicle(vehicle2);
@@ -95,7 +93,7 @@ public class ParkingLotTest {
     @Test
     public void givenParkingLot_WhenSpaceAvailable_ShouldReturnTrue() {
         ParkingLotOwner owner = new ParkingLotOwner();
-        parkingLotSystem.registredParkingLotObserver(owner);
+        parkingLotSystem.registredParkingAttendant(owner);
         try {
             parkingLotSystem.parkTheVehicle(vehicle);
             parkingLotSystem.parkTheVehicle(vehicle2);
@@ -168,6 +166,8 @@ public class ParkingLotTest {
 
     @Test
     public void givenParkingLot_WhenDriverIsNotParkVehicalAtSomeTime_ShouldThrowException() {
+        ParkingLotOwner owner = new ParkingLotOwner();
+        parkingLotSystem.registredParkingAttendant(owner);
         try {
             Boolean parkVehicle = parkingLotSystem.parkTheVehicle(vehicle3);
             boolean conditions = parkingLotSystem.timeCheck(parkVehicle);
@@ -178,12 +178,32 @@ public class ParkingLotTest {
 
     @Test
     public void givenParkingLot_WhenDriverIsParkVehicalAtSomeTime_ShouldThrowException() {
+        ParkingLotOwner owner = new ParkingLotOwner();
+        parkingLotSystem.registredParkingAttendant(owner);
         try {
             Boolean parkVehicle = parkingLotSystem.parkTheVehicle(vehicle3);
             boolean conditions = parkingLotSystem.timeCheck(null);
             Assert.assertEquals(parkVehicle, conditions);
         } catch (ParkingLotException e) {
             Assert.assertEquals(ParkingLotException.ExceptionType.NO_VEHICLE_FOUND, e.type);
+        }
+    }
+
+    @Test
+    public void givenParkingLotVehicles_WhenAddMoreMoreVehicle_ShouldParkEvenly() {
+        parkingSlot.setCapacity(10);
+        try {
+            parkingLotSystem.parkTheVehicle(vehicle);
+            parkingLotSystem.parkTheVehicle(vehicle2);
+            parkingLotSystem.parkTheVehicle(new Object());
+            parkingLotSystem.parkTheVehicle(vehicle3);
+            parkingLotSystem.parkTheVehicle(new Object());
+            parkingLotSystem.parkTheVehicle(new Object());
+            parkingLotSystem.parkTheVehicle(vehicle);
+            parkingLotSystem.parkTheVehicle(new Object());
+            Object emptySlotPosition = parkingLotSystem.getEmptyParkingSlot().get(0);
+            Assert.assertEquals(0, emptySlotPosition);
+        } catch (ParkingLotException e) {
         }
     }
 }

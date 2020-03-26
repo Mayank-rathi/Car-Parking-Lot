@@ -1,9 +1,9 @@
 package carParkingLot;
 
-public class AirPortSecurityStaff implements ParkingAttendant {
+public class AirPortSecurityStaff implements ParkingLotObserver {
     private boolean isFullCapacity;
 
-    public void lotCapacityIsFull() {
+    public void setCapaCity() {
         isFullCapacity = true;
     }
 

@@ -3,8 +3,9 @@ package carParkingLot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParkingSlot implements ParkingAttendant {
+public class ParkingSlot implements ParkingLotObserver {
     private int availableSlotNumber;
+    private int actualCapacity;
     private Object vehicle;
     private boolean slotIsFull;
     List slotNumberList;
@@ -13,21 +14,13 @@ public class ParkingSlot implements ParkingAttendant {
     public ParkingSlot(int availableSlotNumber) {
         this.availableSlotNumber = availableSlotNumber;
         slotNumberList = new ArrayList();
+        this.actualCapacity = availableSlotNumber;
     }
+
 
     public void setVehicleParkingSlot(Object vehicle, int slotNumber) {
         this.vehicle = vehicle;
         slotNumberList.add(slotNumber);
-        slotCount++;
-    }
-
-    public int slotNumberIsAvailable(int availableSlotNumber) {
-        return availableSlotNumber;
-    }
-
-
-    public boolean isSlotFull() {
-        return this.slotIsFull;
     }
 
     public boolean isSlotAvailable() {
@@ -37,8 +30,8 @@ public class ParkingSlot implements ParkingAttendant {
     }
 
     @Override
-    public void lotCapacityIsFull() {
-
+    public void setCapaCity() {
+        return;
     }
 
     @Override

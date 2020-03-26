@@ -1,30 +1,20 @@
 package carParkingLot;
 
-public class ParkingLotOwner implements ParkingAttendant {
+public class ParkingLotOwner implements ParkingLotObserver {
     private boolean isFullCapacity;
-    private int parkingTime;
+
     @Override
-    public void lotCapacityIsFull() {
+    public void setCapaCity() {
         isFullCapacity = true;
     }
 
     @Override
     public boolean isSpaceAvailable() {
-
         return false;
     }
 
     public boolean isCapacityFull() {
-
         return this.isFullCapacity;
     }
-    @Override
-    public void setParkingTime(int parkingTime) {
-        this.parkingTime = parkingTime;
-    }
 
-    @Override
-    public int getParkingTime() {
-        return parkingTime;
-    }
 }

@@ -1,58 +1,36 @@
 package carParkingLot;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
 
-public class ParkingSlot implements ParkingLotObserver {
-    private int availableSlotNumber;
-    private int actualCapacity;
+public class ParkingSlot {
     private Object vehicle;
-    private boolean slotIsFull;
-    List slotNumberList;
-    int slotCount;
+    public LocalDateTime parkingTime;
 
-    public ParkingSlot(int availableSlotNumber) {
-        this.availableSlotNumber = availableSlotNumber;
-        slotNumberList = new ArrayList();
-        this.actualCapacity = availableSlotNumber;
-    }
-
-
-    public void setVehicleParkingSlot(Object vehicle, int slotNumber) {
+    public ParkingSlot(Object vehicle) {
         this.vehicle = vehicle;
-        slotNumberList.add(slotNumber);
     }
 
-    public boolean isSlotAvailable() {
-        if (availableSlotNumber != slotCount)
-            throw new ParkingLotException("Slot Is Full", ParkingLotException.ExceptionType.SLOT_FULL);
-        return true;
+    public void setVehicleParkingSlot(Object vehicle) {
+        this.vehicle = vehicle;
     }
 
-    @Override
-    public void setParkingCapacityFull() {
-        return;
+    public LocalDateTime getParkingTime() {
+        return parkingTime;
     }
 
-    @Override
-    public boolean isParkingLotFull() {
-        return false;
+    public void setVehicleAndTime(Object vehicle) {
+        this.vehicle = vehicle;
+        this.parkingTime = LocalDateTime.now();
     }
 
     @Override
-    public void setParkingAvailable() {
-    return ;
-    }
-    public static boolean timeCheck(Object vehicle) {
-        if (vehicle != null) {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            Date date = new Date();
-            String time = formatter.format(date);
+    public boolean equals(Object obj) {
+        if (this == obj)
             return true;
-        }
-        throw new ParkingLotException("No Such Vehicle Found", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        ParkingSlot that = (ParkingSlot) obj;
+        return vehicle.equals(that.vehicle);
     }
 }
 

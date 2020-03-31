@@ -1,4 +1,4 @@
-package carParkingLot;
+package carParkingLot.Exceptions;
 
 public class ParkingLotException extends RuntimeException {
     public ExceptionType type;

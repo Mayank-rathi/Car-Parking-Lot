@@ -1,4 +1,4 @@
-package carParkingLot;
+package carParkingLot.InformerAndObserver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +17,10 @@ public class ParkingLotInformer {
 
     public void notifyParkingAvailable() {
         for (ParkingLotObserver element : observersList)
-            element.isParkingLotFull();
+            element.isFullCapacity();
     }
 
-    public void register(ParkingLotObserver observers) {
+    public void registerParkingLots(ParkingLotObserver observers) {
         observersList.add(observers);
     }
 }

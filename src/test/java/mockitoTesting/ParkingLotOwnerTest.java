@@ -2,7 +2,7 @@ package mockitoTesting;
 
 import carParkingLot.DriverType;
 import carParkingLot.ParkingLotOwner;
-import carParkingLot.ParkingLotSystem;
+import carParkingLot.ParkingLots;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.mock;
 
 public class ParkingLotOwnerTest {
     @Mock
-    ParkingLotSystem parkingLotSystem;
+    ParkingLots parkingLots;
     ParkingLotOwner parkingLotOwner;
     Object vehicle;
 
@@ -26,7 +26,7 @@ public class ParkingLotOwnerTest {
 
     @Before
     public void setup() {
-        parkingLotSystem = mock(ParkingLotSystem.class);
+        parkingLots = mock(ParkingLots.class);
         parkingLotOwner = new ParkingLotOwner();
         vehicle = new Object();
     }
@@ -34,10 +34,10 @@ public class ParkingLotOwnerTest {
     @Test
     public void check_isCapacityFullFunction() {
         doAnswer((Answer<Void>) invocationOnMock -> {
-            parkingLotOwner.setCapaCity();
+            parkingLotOwner.setParkingCapacityFull();
             return null;
-        }).when(parkingLotSystem).parkTheVehicle(vehicle, DriverType.NORMAL);
-        parkingLotSystem.parkTheVehicle(vehicle, DriverType.NORMAL);
-        Assert.assertTrue(parkingLotOwner.isCapacityFull());
+        }).when(parkingLots).parkTheVehicle(vehicle, DriverType.NORMAL);
+        parkingLots.parkTheVehicle(vehicle, DriverType.NORMAL);
+        Assert.assertTrue(parkingLotOwner.isParkingLotFull());
     }
 }

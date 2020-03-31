@@ -1,8 +1,10 @@
 package carParkingLot;
 
 public interface ParkingLotObserver {
-    void setCapaCity();
+    void setParkingCapacityFull();
 
-    boolean isSpaceAvailable();
+    boolean isParkingLotFull();
+
+    void setParkingAvailable();
 
 }

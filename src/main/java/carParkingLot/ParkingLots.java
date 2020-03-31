@@ -2,18 +2,23 @@ package carParkingLot;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class ParkingLotSystem {
+public class ParkingLots {
 
     private int actualCapacity;
     public List<Object> vehicles;
     private List<ParkingLotObserver> observerList;
+    ParkingLotInformer lotInformer;
+    private ParkingSlot parkingSlot;
 
-    public ParkingLotSystem(int capacity) {
+    public ParkingLots(int capacity) {
         setLotCapacity(capacity);
         this.observerList = new ArrayList<>();
+        lotInformer=new ParkingLotInformer();
     }
 
     public String getWelcomeMessage() {
@@ -24,8 +29,7 @@ public class ParkingLotSystem {
         if (isVehicleParked(vehicle))
             throw new ParkingLotException("This Vehicle Is Already Parked", ParkingLotException.ExceptionType.VEHICLE_IS_ALREADY_PARK);
         if (vehicles.size() == actualCapacity && !vehicles.contains(null)) {
-            for (ParkingLotObserver Observer : observerList)
-                Observer.setCapaCity();
+            lotInformer.notifyParkingFull();
             throw new ParkingLotException("No Parking Space Available!!!", ParkingLotException.ExceptionType.PARKING_LOT_FULL);
         }
         getAutoParkingLocation(vehicle, driverType);
@@ -89,5 +93,10 @@ public class ParkingLotSystem {
 
     public void registredParkingAttendant(ParkingLotObserver attendant) {
         observerList.add(attendant);
+    }
+    public boolean getVehicleParkingTime(Object vehicle) {
+        if (isVehicleParked(vehicle))
+            return parkingSlot.timeCheck(vehicle);
+        throw new ParkingLotException("VEHICLE IS NOT AVAILABLE", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
     }
 }

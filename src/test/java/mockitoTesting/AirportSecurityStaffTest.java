@@ -2,7 +2,7 @@ package mockitoTesting;
 
 import carParkingLot.AirPortSecurityStaff;
 import carParkingLot.DriverType;
-import carParkingLot.ParkingLotSystem;
+import carParkingLot.ParkingLots;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.mock;
 
 public class AirportSecurityStaffTest {
     @Mock
-    ParkingLotSystem parkingLotSystem;
+    ParkingLots parkingLots;
     AirPortSecurityStaff airPortSecurityStaff;
     Object vehicle;
 
@@ -26,7 +26,7 @@ public class AirportSecurityStaffTest {
 
     @Before
     public void setup() {
-        parkingLotSystem = mock(ParkingLotSystem.class);
+        parkingLots = mock(ParkingLots.class);
         airPortSecurityStaff = new AirPortSecurityStaff();
         vehicle = new Object();
     }
@@ -34,10 +34,10 @@ public class AirportSecurityStaffTest {
     @Test
     public void check_isCapacityFull_ReturnTrue() {
         doAnswer((Answer<Void>) invocationOnMock -> {
-            airPortSecurityStaff.setCapaCity();
+            airPortSecurityStaff.setParkingCapacityFull();
             return null;
-        }).when(parkingLotSystem).parkTheVehicle(vehicle, DriverType.NORMAL);
-        parkingLotSystem.parkTheVehicle(vehicle,DriverType.NORMAL);
-        Assert.assertTrue(airPortSecurityStaff.isCapacityFull());
+        }).when(parkingLots).parkTheVehicle(vehicle, DriverType.NORMAL);
+        parkingLots.parkTheVehicle(vehicle,DriverType.NORMAL);
+        Assert.assertTrue(airPortSecurityStaff.isParkingLotFull());
     }
 }

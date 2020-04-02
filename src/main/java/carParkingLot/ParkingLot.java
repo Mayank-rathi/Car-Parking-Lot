@@ -1,14 +1,11 @@
 package carParkingLot;
 
 import carParkingLot.Enum.DriverType;
-import carParkingLot.Enum.VehicleType;
 import carParkingLot.Exceptions.ParkingLotException;
 import carParkingLot.InformerAndObserver.ParkingLotInformer;
 import carParkingLot.InformerAndObserver.ParkingLotObserver;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -20,6 +17,7 @@ public class ParkingLot {
     ParkingLotInformer lotInformer;
     private ParkingSlot parkingSlot;
     public int autoParkingLocation;
+    private int vehicleCount;
 
     public ParkingLot(int capacity) {
         setLotCapacity(capacity);
@@ -31,7 +29,7 @@ public class ParkingLot {
         return "Welcome";
     }
 
-    public boolean parkTheVehicle(Object vehicle, DriverType driverType, VehicleType smallVehicle) throws ParkingLotException {
+    public boolean parkTheVehicle(Object vehicle, DriverType driverType) throws ParkingLotException {
         if (isVehicleParked(vehicle))
             throw new ParkingLotException("This Vehicle Is Already Parked", ParkingLotException.ExceptionType.VEHICLE_IS_ALREADY_PARK);
         if (vehicles.size() == actualCapacity && !vehicles.contains(null)) {
@@ -77,9 +75,12 @@ public class ParkingLot {
     public Integer parkingAttender(DriverType driverType) {
             if(DriverType.HANDICAP.equals(driverType))
                 return getEmptyParkingSlot().stream().sorted().collect(Collectors.toList()).get(0);
-        return getEmptyParkingSlot().stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()).get(0);
+        if(DriverType.NORMAL.equals(driverType))
+            return getEmptyParkingSlot().stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()).get(0);
+        if (DriverType.LARGE_VEHICLE.equals(driverType))
+            return getEmptyParkingSlot().stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()).get(0);
+            return getEmptyParkingSlot().stream().sorted().collect(Collectors.toList()).get(0);
     }
-
 
     public void setLotCapacity(int capacity) {
         this.actualCapacity = capacity;
@@ -90,5 +91,14 @@ public class ParkingLot {
         this.vehicles = new ArrayList<>();
         IntStream.range(0, this.actualCapacity).forEach(slots -> vehicles.add(null));
         return vehicles.size();
+    }
+
+   public int getParkVehicleCount() {
+       return vehicleCount;
+   }
+    public ParkingLot getParkingLot(List<ParkingLot> parkingLots) {
+        List<ParkingLot> parkingLotsList = new ArrayList<>(parkingLots);
+        Collections.sort(parkingLotsList, Comparator.comparing(list -> list.getParkVehicleCount()));
+        return parkingLotsList.get(0);
     }
 }

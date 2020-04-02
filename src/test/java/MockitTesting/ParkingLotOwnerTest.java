@@ -1,7 +1,6 @@
 package MockitTesting;
 
 import carParkingLot.Enum.DriverType;
-import carParkingLot.Enum.VehicleType;
 import carParkingLot.Handler.ParkingLotOwner;
 import carParkingLot.ParkingLot;
 import org.junit.Assert;
@@ -36,8 +35,8 @@ public class ParkingLotOwnerTest {
         doAnswer((Answer<Void>) invocationOnMock -> {
             parkingLotOwner.setParkingCapacityFull();
             return null;
-        }).when(parkingLot).parkTheVehicle(vehicle, DriverType.NORMAL, VehicleType.SMALL_VEHICLE);
-        parkingLot.parkTheVehicle(vehicle, DriverType.NORMAL, VehicleType.SMALL_VEHICLE);
+        }).when(parkingLot).parkTheVehicle(vehicle, DriverType.NORMAL);
+        parkingLot.parkTheVehicle(vehicle, DriverType.NORMAL);
         Assert.assertTrue(parkingLotOwner.isFullCapacity());
     }
 
@@ -46,15 +45,15 @@ public class ParkingLotOwnerTest {
         doAnswer(invocationOnMock -> {
             parkingLotOwner.isLotSpaceAvailable();
             return null;
-        }).when(parkingLot).parkTheVehicle(vehicle, DriverType.NORMAL, VehicleType.SMALL_VEHICLE);
-        parkingLot.parkTheVehicle(vehicle, DriverType.NORMAL, VehicleType.SMALL_VEHICLE);
+        }).when(parkingLot).parkTheVehicle(vehicle, DriverType.NORMAL);
+        parkingLot.parkTheVehicle(vehicle, DriverType.NORMAL);
         Assert.assertFalse(parkingLotOwner.isSpaceAvailable());
     }
 
     @Test
     public void givenParkingLot_WhenVehicleParked_ShouldReturnTrue() {
-        when(parkingLot.parkTheVehicle(vehicle, DriverType.NORMAL, VehicleType.SMALL_VEHICLE)).thenReturn(true);
-        boolean isParked = parkingLot.parkTheVehicle(this.vehicle, DriverType.NORMAL, VehicleType.SMALL_VEHICLE);
+        when(parkingLot.parkTheVehicle(vehicle, DriverType.NORMAL)).thenReturn(true);
+        boolean isParked = parkingLot.parkTheVehicle(this.vehicle, DriverType.NORMAL);
         Assert.assertTrue(isParked);
     }
 }

@@ -1,7 +1,6 @@
 package MockitTesting;
 
 import carParkingLot.Enum.DriverType;
-import carParkingLot.Enum.VehicleType;
 import carParkingLot.Handler.AirPortSecurityStaff;
 import carParkingLot.ParkingLot;
 import org.junit.Assert;
@@ -37,8 +36,8 @@ public class AirportSecurityStaffTest {
         doAnswer((Answer<Void>) invocationOnMock -> {
             airPortSecurityStaff.setParkingCapacityFull();
             return null;
-        }).when(parkingLot).parkTheVehicle(vehicle, DriverType.NORMAL, VehicleType.SMALL_VEHICLE);
-        parkingLot.parkTheVehicle(vehicle, DriverType.NORMAL, VehicleType.SMALL_VEHICLE);
+        }).when(parkingLot).parkTheVehicle(vehicle, DriverType.NORMAL);
+        parkingLot.parkTheVehicle(vehicle, DriverType.NORMAL);
         Assert.assertTrue(airPortSecurityStaff.isFullCapacity());
     }
 
@@ -47,8 +46,8 @@ public class AirportSecurityStaffTest {
         doAnswer(invocationOnMock -> {
             airPortSecurityStaff.isLotSpaceAvailable();
             return null;
-        }).when(parkingLot).parkTheVehicle(vehicle, DriverType.NORMAL, VehicleType.SMALL_VEHICLE);
-        parkingLot.parkTheVehicle(vehicle, DriverType.NORMAL, VehicleType.SMALL_VEHICLE);
+        }).when(parkingLot).parkTheVehicle(vehicle, DriverType.NORMAL);
+        parkingLot.parkTheVehicle(vehicle, DriverType.NORMAL);
         Assert.assertTrue(airPortSecurityStaff.isSpaceAvailable());
     }
 }

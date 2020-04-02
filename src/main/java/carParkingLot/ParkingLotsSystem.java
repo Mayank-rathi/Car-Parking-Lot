@@ -1,7 +1,6 @@
 package carParkingLot;
 
 import carParkingLot.Enum.DriverType;
-import carParkingLot.Enum.VehicleType;
 import carParkingLot.Exceptions.ParkingLotException;
 import carParkingLot.InformerAndObserver.ParkingLotInformer;
 import carParkingLot.InformerAndObserver.ParkingLotObserver;
@@ -27,7 +26,7 @@ public class ParkingLotsSystem {
 
     public boolean parkVehicle(Object vehicle, DriverType type) {
         ParkingLot lot = getParkingLotIfAvailableSpace();
-        boolean parkedVehicle = lot.parkTheVehicle(vehicle, type, VehicleType.SMALL_VEHICLE);
+        boolean parkedVehicle = lot.parkTheVehicle(vehicle, type);
         return parkedVehicle;
     }
 

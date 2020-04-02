@@ -1,6 +1,7 @@
 package carParkingLot;
 
 import carParkingLot.Enum.DriverType;
+import carParkingLot.Enum.VehicleColors;
 import carParkingLot.Exceptions.ParkingLotException;
 import carParkingLot.InformerAndObserver.ParkingLotInformer;
 import carParkingLot.InformerAndObserver.ParkingLotObserver;
@@ -24,9 +25,9 @@ public class ParkingLotsSystem {
         addToLot = this.parkingLotList.add(parkingLot);
     }
 
-    public boolean parkVehicle(Object vehicle, DriverType type) {
+    public boolean parkVehicle(Object vehicle, DriverType type, VehicleColors color) {
         ParkingLot lot = getParkingLotIfAvailableSpace();
-        boolean parkedVehicle = lot.parkTheVehicle(vehicle, type);
+        boolean parkedVehicle = lot.parkTheVehicle(vehicle, type, color);
         return parkedVehicle;
     }
 
@@ -45,4 +46,12 @@ public class ParkingLotsSystem {
         }
         throw new ParkingLotException("No Such Vehicle In Lot", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
     }
+    public boolean CheckVehicleParked(Object vehicle) {
+        for (ParkingLot parkingLots : this.parkingLotList) {
+            if (parkingLots.isVehicleParked(vehicle))
+                return true;
+        }
+        throw new ParkingLotException("Vehicle Not Available", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
+    }
+
 }

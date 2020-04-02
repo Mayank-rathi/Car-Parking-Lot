@@ -1,11 +1,14 @@
 package carParkingLot;
 
 import carParkingLot.Enum.DriverType;
+import carParkingLot.Enum.VehicleColors;
 import carParkingLot.Exceptions.ParkingLotException;
 import carParkingLot.InformerAndObserver.ParkingLotInformer;
 import carParkingLot.InformerAndObserver.ParkingLotObserver;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -17,7 +20,7 @@ public class ParkingLot {
     ParkingLotInformer lotInformer;
     private ParkingSlot parkingSlot;
     public int autoParkingLocation;
-    private int vehicleCount;
+    private String color;
 
     public ParkingLot(int capacity) {
         setLotCapacity(capacity);
@@ -29,14 +32,14 @@ public class ParkingLot {
         return "Welcome";
     }
 
-    public boolean parkTheVehicle(Object vehicle, DriverType driverType) throws ParkingLotException {
+    public boolean parkTheVehicle(Object vehicle, DriverType driverType, VehicleColors colors) throws ParkingLotException {
         if (isVehicleParked(vehicle))
             throw new ParkingLotException("This Vehicle Is Already Parked", ParkingLotException.ExceptionType.VEHICLE_IS_ALREADY_PARK);
         if (vehicles.size() == actualCapacity && !vehicles.contains(null)) {
             lotInformer.notifyParkingFull();
             throw new ParkingLotException("No Parking Space Available!!!", ParkingLotException.ExceptionType.PARKING_LOT_FULL);
         }
-        getAutoParkingLocation(vehicle, driverType);
+        getAutoParkingLocation(vehicle, driverType,colors);
         return true;
     }
 
@@ -50,7 +53,7 @@ public class ParkingLot {
         throw new ParkingLotException("VEHICLE IS NOT AVAILABLE", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
     }
 
-    public void getAutoParkingLocation(Object vehicle, DriverType driverType) {
+    public void getAutoParkingLocation(Object vehicle, DriverType driverType, VehicleColors colors) {
         autoParkingLocation = (int) parkingAttender(driverType);
         this.vehicles.set(autoParkingLocation, parkingSlot);
     }
@@ -67,8 +70,14 @@ public class ParkingLot {
     }
 
     public int findVehicle(Object vehicle) {
-        if (this.vehicles.contains(vehicle))
-            return this.vehicles.indexOf(vehicle);
+        if (isVehicleParked(vehicle))
+            return this.vehicles.indexOf(parkingSlot);
+        throw new ParkingLotException("NO VEHICLE.", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
+    }
+
+    public int findByColor(Object color){
+        if (this.vehicles.contains(color))
+            return this.vehicles.indexOf(color);
         throw new ParkingLotException("VEHICLE IS NOT AVAILABLE", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
     }
 
@@ -93,12 +102,4 @@ public class ParkingLot {
         return vehicles.size();
     }
 
-   public int getParkVehicleCount() {
-       return vehicleCount;
-   }
-    public ParkingLot getParkingLot(List<ParkingLot> parkingLots) {
-        List<ParkingLot> parkingLotsList = new ArrayList<>(parkingLots);
-        Collections.sort(parkingLotsList, Comparator.comparing(list -> list.getParkVehicleCount()));
-        return parkingLotsList.get(0);
-    }
 }

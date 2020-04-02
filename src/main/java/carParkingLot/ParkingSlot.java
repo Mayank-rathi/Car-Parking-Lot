@@ -5,13 +5,23 @@ import java.time.LocalDateTime;
 public class ParkingSlot {
     private Object vehicle;
     public LocalDateTime parkingTime;
+    public int VehicleSlotNumber;
 
     public ParkingSlot(Object vehicle) {
         this.vehicle = vehicle;
     }
+    public void setSlot(int slotNumber) {
+        this.VehicleSlotNumber = slotNumber;
+    }
 
+    public int getVehicleSlotNumber() {
+        return VehicleSlotNumber;
+    }
     public void setVehicleParkingSlot(Object vehicle) {
         this.vehicle = vehicle;
+    }
+    public Object getVehicle() {
+        return this.vehicle;
     }
 
     public LocalDateTime getParkingTime() {

@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 public class ParkingLotTest {
@@ -330,7 +331,7 @@ public class ParkingLotTest {
             parkingLot.unParking(vehicle2);
             parkingLot.parkTheVehicle(vehicle4, DriverType.HANDICAP, VehicleColors.WHITE);
             int findVehiclePosition = parkingLot.findVehicle(vehicle);
-            Assert.assertEquals(1, findVehiclePosition);
+            Assert.assertEquals(0, findVehiclePosition);
         } catch (ParkingLotException e) {
             Assert.assertEquals(ParkingLotException.ExceptionType.NO_VEHICLE_FOUND, e.type);
         }
@@ -423,28 +424,26 @@ public class ParkingLotTest {
     //UC12
     @Test
     public void givenParkingLot_WhenVehicleIsParked_ShouldFindTheVehicleByColor() {
-        parkingLot.setLotCapacity(20);
+        parkingLot.setLotCapacity(15);
         ParkingLot parkingLot1 = new ParkingLot(2);
-
-        parkingLot1.setLotCapacity(20);
-
+        parkingLot1.setLotCapacity(12);
         parkingLotsSystem.addToLot(parkingLot1);
+        parkingLotsSystem.registerParkingLots(owner);
         Object vehicle2 = new Object();
         Object vehicle3 = new Object();
         Object vehicle4 = new Object();
         Object vehicle5 = new Object();
-
+        Object vehicle = new Object();
         try {
-            parkingLot.parkTheVehicle(vehicle, DriverType.NORMAL, VehicleColors.WHITE);
-            parkingLot.parkTheVehicle(vehicle2, DriverType.NORMAL, VehicleColors.WHITE);
-            parkingLot.parkTheVehicle(vehicle3, DriverType.NORMAL, VehicleColors.WHITE);
-            parkingLot.parkTheVehicle(vehicle4, DriverType.NORMAL, VehicleColors.WHITE);
-            parkingLot.unParking(vehicle);
-            parkingLot.parkTheVehicle(vehicle5, DriverType.NORMAL, VehicleColors.WHITE);
-            int byColor = parkingLot1.findVehicle(vehicle2);
-            Assert.assertEquals(4, byColor);
+            parkingLotsSystem.parkVehicle(vehicle, DriverType.NORMAL, VehicleColors.RED);
+            parkingLotsSystem.parkVehicle(vehicle2, DriverType.LARGE_VEHICLE, VehicleColors.WHITE);
+            parkingLotsSystem.unParkVehicle(vehicle2);
+            parkingLotsSystem.parkVehicle(vehicle3, DriverType.HANDICAP, VehicleColors.RED);
+            parkingLotsSystem.parkVehicle(vehicle4, DriverType.SMALL_VEHICLE, VehicleColors.WHITE);
+            List<Integer> carSlotList = parkingLot.getVehicleByColor(VehicleColors.WHITE);
+            Assert.assertEquals(3, carSlotList.size());
         } catch (ParkingLotException e) {
-            Assert.assertEquals(ParkingLotException.ExceptionType.PARKING_LOT_FULL, e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.NO_VEHICLE_FOUND, e.type);
         }
     }
 }

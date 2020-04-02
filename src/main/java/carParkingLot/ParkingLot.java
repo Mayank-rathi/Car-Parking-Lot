@@ -15,12 +15,11 @@ import java.util.stream.IntStream;
 public class ParkingLot {
 
     private int actualCapacity;
-    public List<Object> vehicles;
-    private List<ParkingLotObserver> observerList;
+    public List<ParkingSlot> vehicles;
+         private List<ParkingLotObserver> observerList;
     ParkingLotInformer lotInformer;
     private ParkingSlot parkingSlot;
     public int autoParkingLocation;
-    private String color;
 
     public ParkingLot(int capacity) {
         setLotCapacity(capacity);
@@ -100,6 +99,17 @@ public class ParkingLot {
         this.vehicles = new ArrayList<>();
         IntStream.range(0, this.actualCapacity).forEach(slots -> vehicles.add(null));
         return vehicles.size();
+    }
+
+    public List<Integer> getVehicleByColor(VehicleColors carColor) {
+        try {
+            List<Integer> whiteColorSlot = vehicles.stream().filter(slot -> slot.getVehicle() != null)
+                    .filter(slot -> slot.getVehicle().toString().equals(carColor))
+                    .map(parkingSlot -> parkingSlot.getVehicleSlotNumber()).collect(Collectors.toList());
+            return whiteColorSlot;
+        } catch (NullPointerException e) {
+            throw new ParkingLotException("No Vehicle Found", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
+        }
     }
 
 }

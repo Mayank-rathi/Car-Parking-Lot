@@ -1,17 +1,11 @@
 package carParkingLot;
 
-import carParkingLot.Enum.DriverType;
-import carParkingLot.Enum.VehicleColors;
-
 public class Vehicle {
-
-    public DriverType driverType;
-    public VehicleColors colors;
     public String carColor;
     public String plateNumber;
     public String carManufacturer;
     public String attendantName;
-    private String location;
+    public String location;
 
     public Vehicle(String plateNumber, String carColor , String carManufacturer, String attendantName, String location) {
         this.carColor = carColor;
@@ -21,27 +15,29 @@ public class Vehicle {
         this.location = location;
     }
 
+    public String getColor() {
+        return carColor;
+    }
+    public String getNumberPlate() {
+        return plateNumber;
+    }
+    public void setCarColor(String carColor) {
+        this.carColor = carColor;
+    }
+
+    public String getModelName() {
+        return carManufacturer;
+    }
+
+
     @Override
     public String toString() {
         return "Vehicle{" +
-                "driverType=" + driverType +
-                ", colors=" + colors +
-                ", carColor='" + carColor + '\'' +
+                "carColor='" + carColor + '\'' +
                 ", plateNumber='" + plateNumber + '\'' +
                 ", carManufacturer='" + carManufacturer + '\'' +
                 ", attendantName='" + attendantName + '\'' +
                 ", location='" + location + '\'' +
                 '}';
     }
-
-
-    public String getModelName() {
-        return carManufacturer;
-    }
-
-    public String getColor() {
-        return carColor;
-    }
-
-
 }

@@ -5,6 +5,7 @@ import carParkingLot.Exceptions.ParkingLotException;
 import carParkingLot.InformerAndObserver.ParkingLotInformer;
 import carParkingLot.InformerAndObserver.ParkingLotObserver;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -57,9 +58,12 @@ public class ParkingLot {
         throw new ParkingLotException("VEHICLE IS NOT AVAILABLE", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
     }
 
-    public void getAutoParkingLocation(Object vehicle, DriverType driverType) {
+    public void getAutoParkingLocation(Vehicle vehicle, DriverType driverType) {
         autoParkingLocation = (int) parkingAttender(driverType);
         this.vehicles.set(autoParkingLocation, parkingSlot);
+        vehicleCount++;
+        parkingSlot.setVehicleAndTime(vehicle);
+        parkingSlot.setSlot(vehicleCount);
     }
 
     public ArrayList<Integer> getEmptyParkingSlot() {
@@ -106,50 +110,18 @@ public class ParkingLot {
         return vehicles.size();
     }
 
-   /* public List<Integer> getVehicleByColor(String carColor) {
-            List<Integer> whiteColorSlot = vehicles.stream().filter(slot -> slot.getVehicle() != null)
-                    .filter(slot -> slot.getVehicle().toString().equals(carColor))
-                    .map(parkingSlot -> parkingSlot.getVehicleSlotNumber()).collect(Collectors.toList());
-            return whiteColorSlot;
-    }*/
-
-    public List<Integer> getVehicaleByDetail(Vehicle vehicle) {
+    public List<String> getVehicleWhichIsParkedFrom30Min() {
         try {
-            List<Integer> whiteColorSlot = vehicles.stream().filter(slot -> slot.getVehicle() != null)
-                    .filter(slot -> slot.getVehicle().toString().equals(vehicle))
-                    .map(parkingSlot -> parkingSlot.getVehicleSlotNumber()).collect(Collectors.toList());
-            return whiteColorSlot;
+            List<String> MinParkVehicleList = new ArrayList<>();
+            MinParkVehicleList = this.vehicles.stream()
+                    .filter(parkingSlot -> parkingSlot.getVehicle() != null)
+                    .filter(parkingSlot -> parkingSlot.getParkingTime().getMinute() - LocalDateTime.now().getMinute() <= 30)
+                    .map(parkingSlot -> ((parkingSlot.getVehicleSlotNumber())) + " " + (parkingSlot.getVehicle().getModelName()) + " " + (parkingSlot.getVehicle().getNumberPlate()))
+                    .collect(Collectors.toList());
+            return MinParkVehicleList;
         } catch (NullPointerException e) {
-            throw new ParkingLotException("No Vehicle Found", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
+            throw new ParkingLotException("No Vehicle Available", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
         }
-    }
 
-    public List<Integer> getVehicleByColor(String fieldName) {
-        List<Integer> whiteVehicleList = new ArrayList<>();
-        whiteVehicleList = this.vehicles.stream()
-                .filter(parkingSlot -> parkingSlot.getVehicle() != null)
-                .filter(parkingSlot -> parkingSlot.getVehicle().getColor().equals(fieldName))
-                .map(parkingSlot -> parkingSlot.getSlot())
-                .collect(Collectors.toList());
-        return whiteVehicleList;
-    }
-    public List<Integer> findParkedVehicleDetailsByCarManufactur(String carManufacturer) {
-        List<Integer> bmwVehicleList = new ArrayList<>();
-        bmwVehicleList = this.vehicles.stream()
-                .filter(parkingSlot -> parkingSlot.getVehicle() != null)
-                .filter(parkingSlot -> parkingSlot.getVehicle().getModelName().equals(carManufacturer))
-                .map(parkingSlot -> parkingSlot.getSlot())
-                .collect(Collectors.toList());
-        return bmwVehicleList;
-    }
-    public List<Integer> getWhiteColorVehicleSlot(String carColor) {
-        try {
-            List<Integer> whiteColorSlot = vehicles.stream().filter(slot -> slot.getVehicle() != null)
-                    .filter(slot -> slot.getVehicle().getColor().equals(carColor))
-                    .map(parkingSlot -> parkingSlot.getSlotNumber()).collect(Collectors.toList());
-            return whiteColorSlot;
-        } catch (NullPointerException e) {
-            throw new ParkingLotException("No Such Vehicle In Lot", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
-        }
     }
 }

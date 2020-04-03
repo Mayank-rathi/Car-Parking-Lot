@@ -61,24 +61,37 @@ public class ParkingLotsSystem {
         throw new ParkingLotException("Vehicle Not Available", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
     }
 
+    public List<Integer> getVehicleByColor(String carColor) {
+        try {
+            List<Integer> whiteColorSlot = list.stream().filter(slot -> slot.getVehicle() != null)
+                    .filter(slot -> slot.getVehicle().getColor().equals(carColor))
+                    .map(parkingSlot -> parkingSlot.getVehicleSlotNumber()).collect(Collectors.toList());
+            return whiteColorSlot;
+        } catch (NullPointerException e) {
+            throw new ParkingLotException("No Such Vehicle In Lot", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
+        }
+    }
 
-    public List<List<Integer>> findVehicleByType(String typeCheck) {
+    public List<Integer> getVehicleByNumberPlate(String plateNumber) {
         try {
-            List<List<Integer>> listOfLotsWithWhiteVehicles = this.parkingLotList.stream()
-                    .map(lot -> lot.getVehicleByColor(typeCheck)).collect(Collectors.toList());
-            return listOfLotsWithWhiteVehicles;
+            List<Integer> numberPlate = list.stream().filter(slot -> slot.getVehicle() != null)
+                    .filter(slot -> slot.getVehicle().getColor().equals(plateNumber))
+                    .map(parkingSlot -> parkingSlot.getVehicleSlotNumber()).collect(Collectors.toList());
+            return numberPlate;
         } catch (NullPointerException e) {
-            throw new ParkingLotException("No Vehicle Found", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
+            throw new ParkingLotException("No Vehicle Available", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
         }
     }
-    public List<List<Integer>> findBMWVehicle(String check) {
+
+    public List<Integer> getVehicleByCarManufacturer(String carManufacturer) {
         try {
-        List<List<Integer>> listOfLotsWithWhiteVehicles = this.parkingLotList.stream()
-                .map(lot -> lot.findParkedVehicleDetailsByCarManufactur(check))
-                .collect(Collectors.toList());
-        return  listOfLotsWithWhiteVehicles;
+            List<Integer> manufacturer = list.stream().filter(slot -> slot.getVehicle() != null)
+                    .filter(slot -> slot.getVehicle().getColor().equals(carManufacturer))
+                    .map(parkingSlot -> parkingSlot.getVehicleSlotNumber()).collect(Collectors.toList());
+            return manufacturer;
         } catch (NullPointerException e) {
-            throw new ParkingLotException("No Vehicle Found", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
+            throw new ParkingLotException("No Vehicle Available", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
         }
     }
+
 }

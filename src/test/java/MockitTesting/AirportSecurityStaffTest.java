@@ -1,9 +1,9 @@
 package MockitTesting;
 
 import carParkingLot.Enum.DriverType;
-import carParkingLot.Enum.VehicleColors;
 import carParkingLot.Handler.AirPortSecurityStaff;
 import carParkingLot.ParkingLot;
+import carParkingLot.Vehicle;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -20,7 +20,7 @@ public class AirportSecurityStaffTest {
     @Mock
     ParkingLot parkingLot;
     AirPortSecurityStaff airPortSecurityStaff;
-    Object vehicle;
+    Vehicle vehicle;
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
@@ -29,7 +29,7 @@ public class AirportSecurityStaffTest {
     public void setup() {
         parkingLot = mock(ParkingLot.class);
         airPortSecurityStaff = new AirPortSecurityStaff();
-        vehicle = new Object();
+        vehicle = new Vehicle("MH-27-BC-3361","white", "Maruti", "ABC", "Mumbai");
     }
 
     @Test
@@ -37,8 +37,8 @@ public class AirportSecurityStaffTest {
         doAnswer((Answer<Void>) invocationOnMock -> {
             airPortSecurityStaff.setParkingCapacityFull();
             return null;
-        }).when(parkingLot).parkTheVehicle(vehicle, DriverType.NORMAL, VehicleColors.WHITE);
-        parkingLot.parkTheVehicle(vehicle, DriverType.NORMAL,VehicleColors.WHITE);
+        }).when(parkingLot).parkTheVehicle(vehicle, DriverType.NORMAL);
+        parkingLot.parkTheVehicle(vehicle, DriverType.NORMAL);
         Assert.assertTrue(airPortSecurityStaff.isFullCapacity());
     }
 
@@ -47,8 +47,8 @@ public class AirportSecurityStaffTest {
         doAnswer(invocationOnMock -> {
             airPortSecurityStaff.isLotSpaceAvailable();
             return null;
-        }).when(parkingLot).parkTheVehicle(vehicle, DriverType.NORMAL, VehicleColors.WHITE);
-        parkingLot.parkTheVehicle(vehicle, DriverType.NORMAL, VehicleColors.WHITE);
+        }).when(parkingLot).parkTheVehicle(vehicle, DriverType.NORMAL);
+        parkingLot.parkTheVehicle(vehicle, DriverType.NORMAL);
         Assert.assertTrue(airPortSecurityStaff.isSpaceAvailable());
     }
 }

@@ -1,12 +1,13 @@
 package carParkingLot;
 
 import carParkingLot.Enum.DriverType;
-import carParkingLot.Enum.VehicleColors;
 import carParkingLot.Exceptions.ParkingLotException;
 import carParkingLot.InformerAndObserver.ParkingLotInformer;
 import carParkingLot.InformerAndObserver.ParkingLotObserver;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -14,34 +15,40 @@ public class ParkingLot {
 
     private int actualCapacity;
     public List<ParkingSlot> vehicles;
-         private List<ParkingLotObserver> observerList;
+    private List<ParkingLotObserver> observerList;
     ParkingLotInformer lotInformer;
     private ParkingSlot parkingSlot;
     public int autoParkingLocation;
-    private Map<Integer, TreeMap<Integer, Vehicle>> parkingLots = new TreeMap<>();
+    private int vehicleCount;
+
+
     public ParkingLot(int capacity) {
         setLotCapacity(capacity);
         this.observerList = new ArrayList<>();
-        lotInformer=new ParkingLotInformer();
+        lotInformer = new ParkingLotInformer();
+    }
+
+    public int getParkVehicleCount() {
+        return vehicleCount;
     }
 
     public String getWelcomeMessage() {
         return "Welcome";
     }
 
-    public boolean parkTheVehicle(Object vehicle, DriverType driverType, VehicleColors colors) throws ParkingLotException {
+    public boolean parkTheVehicle(Vehicle vehicle, DriverType driverType) throws ParkingLotException {
         if (isVehicleParked(vehicle))
             throw new ParkingLotException("This Vehicle Is Already Parked", ParkingLotException.ExceptionType.VEHICLE_IS_ALREADY_PARK);
         if (vehicles.size() == actualCapacity && !vehicles.contains(null)) {
             lotInformer.notifyParkingFull();
             throw new ParkingLotException("No Parking Space Available!!!", ParkingLotException.ExceptionType.PARKING_LOT_FULL);
         }
-        getAutoParkingLocation(vehicle, driverType,colors);
+        getAutoParkingLocation(vehicle, driverType);
         return true;
     }
 
 
-    public Boolean unParking(Object vehicle) throws ParkingLotException {
+    public Boolean unParking(Vehicle vehicle) throws ParkingLotException {
         if (isVehicleParked(vehicle)) {
             this.vehicles.set(this.vehicles.indexOf(parkingSlot), null);
             lotInformer.notifyParkingAvailable();
@@ -50,7 +57,7 @@ public class ParkingLot {
         throw new ParkingLotException("VEHICLE IS NOT AVAILABLE", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
     }
 
-    public void getAutoParkingLocation(Object vehicle, DriverType driverType, VehicleColors colors) {
+    public void getAutoParkingLocation(Object vehicle, DriverType driverType) {
         autoParkingLocation = (int) parkingAttender(driverType);
         this.vehicles.set(autoParkingLocation, parkingSlot);
     }
@@ -61,12 +68,12 @@ public class ParkingLot {
         return emptyParkingSlots;
     }
 
-    public boolean isVehicleParked(Object vehicle) {
+    public boolean isVehicleParked(Vehicle vehicle) {
         parkingSlot = new ParkingSlot(vehicle);
         return this.vehicles.contains(parkingSlot);
     }
 
-    public int findVehicle(Object vehicle) {
+    public int findVehicle(Vehicle vehicle) {
         if (isVehicleParked(vehicle))
             return this.vehicles.indexOf(parkingSlot);
         throw new ParkingLotException("NO VEHICLE.", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
@@ -99,16 +106,13 @@ public class ParkingLot {
         return vehicles.size();
     }
 
-    public List<Integer> getVehicleByColor(String carColor) {
-        try {
+   /* public List<Integer> getVehicleByColor(String carColor) {
             List<Integer> whiteColorSlot = vehicles.stream().filter(slot -> slot.getVehicle() != null)
                     .filter(slot -> slot.getVehicle().toString().equals(carColor))
                     .map(parkingSlot -> parkingSlot.getVehicleSlotNumber()).collect(Collectors.toList());
             return whiteColorSlot;
-        } catch (NullPointerException e) {
-            throw new ParkingLotException("No Vehicle Found", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
-        }
-    }
+    }*/
+
     public List<Integer> getVehicaleByDetail(Vehicle vehicle) {
         try {
             List<Integer> whiteColorSlot = vehicles.stream().filter(slot -> slot.getVehicle() != null)
@@ -120,4 +124,32 @@ public class ParkingLot {
         }
     }
 
+    public List<Integer> getVehicleByColor(String fieldName) {
+        List<Integer> whiteVehicleList = new ArrayList<>();
+        whiteVehicleList = this.vehicles.stream()
+                .filter(parkingSlot -> parkingSlot.getVehicle() != null)
+                .filter(parkingSlot -> parkingSlot.getVehicle().getColor().equals(fieldName))
+                .map(parkingSlot -> parkingSlot.getSlot())
+                .collect(Collectors.toList());
+        return whiteVehicleList;
+    }
+    public List<Integer> findParkedVehicleDetailsByCarManufactur(String carManufacturer) {
+        List<Integer> bmwVehicleList = new ArrayList<>();
+        bmwVehicleList = this.vehicles.stream()
+                .filter(parkingSlot -> parkingSlot.getVehicle() != null)
+                .filter(parkingSlot -> parkingSlot.getVehicle().getModelName().equals(carManufacturer))
+                .map(parkingSlot -> parkingSlot.getSlot())
+                .collect(Collectors.toList());
+        return bmwVehicleList;
+    }
+    public List<Integer> getWhiteColorVehicleSlot(String carColor) {
+        try {
+            List<Integer> whiteColorSlot = vehicles.stream().filter(slot -> slot.getVehicle() != null)
+                    .filter(slot -> slot.getVehicle().getColor().equals(carColor))
+                    .map(parkingSlot -> parkingSlot.getSlotNumber()).collect(Collectors.toList());
+            return whiteColorSlot;
+        } catch (NullPointerException e) {
+            throw new ParkingLotException("No Such Vehicle In Lot", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
+        }
+    }
 }

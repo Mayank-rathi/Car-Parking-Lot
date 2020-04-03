@@ -13,21 +13,19 @@ public class Vehicle {
     public String attendantName;
     private String location;
 
-    public Vehicle(String plateNumber,DriverType driverType, String carColor , String carManufacturer, String attendantName, String location) {
-        this.driverType = driverType;
+    public Vehicle(String plateNumber, String carColor , String carManufacturer, String attendantName, String location) {
         this.carColor = carColor;
         this.plateNumber = plateNumber;
         this.carManufacturer = carManufacturer;
         this.attendantName = attendantName;
         this.location = location;
     }
-    public String getColor() {
-        return carColor;
-    }
+
     @Override
     public String toString() {
         return "Vehicle{" +
                 "driverType=" + driverType +
+                ", colors=" + colors +
                 ", carColor='" + carColor + '\'' +
                 ", plateNumber='" + plateNumber + '\'' +
                 ", carManufacturer='" + carManufacturer + '\'' +
@@ -35,5 +33,15 @@ public class Vehicle {
                 ", location='" + location + '\'' +
                 '}';
     }
+
+
+    public String getModelName() {
+        return carManufacturer;
+    }
+
+    public String getColor() {
+        return carColor;
+    }
+
 
 }

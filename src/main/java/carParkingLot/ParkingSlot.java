@@ -3,32 +3,40 @@ package carParkingLot;
 import java.time.LocalDateTime;
 
 public class ParkingSlot {
-    private Object vehicle;
+    private Vehicle vehicle;
     public LocalDateTime parkingTime;
-    public int VehicleSlotNumber;
+    private int slot;
 
-    public ParkingSlot(Object vehicle) {
+    public ParkingSlot(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
+
+
     public void setSlot(int slotNumber) {
-        this.VehicleSlotNumber = slotNumber;
+        this.slot = slotNumber;
     }
-
+    public int getSlot() {
+        return slot;
+    }
+    public int getSlotNumber() {
+        return slot;
+    }
     public int getVehicleSlotNumber() {
-        return VehicleSlotNumber;
+        return slot;
     }
-    public void setVehicleParkingSlot(Object vehicle) {
+    public void setVehicleParkingSlot(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
-    public Object getVehicle() {
-        return this.vehicle;
+
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 
     public LocalDateTime getParkingTime() {
         return parkingTime;
     }
 
-    public void setVehicleAndTime(Object vehicle) {
+    public void setVehicleAndTime(Vehicle vehicle) {
         this.vehicle = vehicle;
         this.parkingTime = LocalDateTime.now();
     }

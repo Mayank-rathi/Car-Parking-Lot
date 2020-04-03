@@ -36,6 +36,7 @@ public class ParkingLotsSystem {
                 Comparator.reverseOrder())).collect(Collectors.toList()).get(0);
     }
 
+
     public void registerParkingLots(ParkingLotObserver observer) {
         parkingLotInformer.registerParkingLots(observer);
     }

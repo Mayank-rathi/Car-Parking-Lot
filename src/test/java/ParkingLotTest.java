@@ -6,6 +6,7 @@ import carParkingLot.Handler.ParkingLotOwner;
 import carParkingLot.ParkingLot;
 import carParkingLot.ParkingLotsSystem;
 import carParkingLot.ParkingSlot;
+import carParkingLot.Vehicle;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class ParkingLotTest {
     ParkingLotsSystem parkingLotsSystem;
     ParkingLotOwner owner;
     AirPortSecurityStaff airportSecurity;
-    Object vehicle, vehicle2, vehicle3;
+    Vehicle vehicle, vehicle2, vehicle3;
 
     @Before
     public void setUp() {
@@ -29,9 +30,11 @@ public class ParkingLotTest {
         owner = new ParkingLotOwner();
         parkingLotsSystem = new ParkingLotsSystem();
         airportSecurity = new AirPortSecurityStaff();
-        vehicle = new Object();
-        vehicle2 = new Object();
-        vehicle3 = new Object();
+        vehicle = new Vehicle("MH-27-BC-3361",DriverType.NORMAL,"white","Maruti","ABC","Mumbai");
+        vehicle2 = new Vehicle("MH-25-BC-3341",DriverType.HANDICAP,"Red","BMW","XYZ","Navi-Mumbai");
+        vehicle3 = new Vehicle("MH-23-BC-4561",DriverType.LARGE_VEHICLE,"Blue","Toyota","PQR","Thane");
+        vehicle3 = new Vehicle("MH-78-BC-9685",DriverType.SMALL_VEHICLE,"Black","Tata","LMN","Kalyan");
+
     }
 
     @Test
@@ -429,22 +432,38 @@ public class ParkingLotTest {
         parkingLot1.setLotCapacity(12);
         parkingLotsSystem.addToLot(parkingLot1);
         parkingLotsSystem.registerParkingLots(owner);
-        Object vehicle2 = new Object();
-        Object vehicle3 = new Object();
-        Object vehicle4 = new Object();
-        Object vehicle5 = new Object();
-        Object vehicle = new Object();
         try {
             parkingLotsSystem.parkVehicle(vehicle, DriverType.NORMAL, VehicleColors.RED);
             parkingLotsSystem.parkVehicle(vehicle2, DriverType.LARGE_VEHICLE, VehicleColors.WHITE);
             parkingLotsSystem.unParkVehicle(vehicle2);
             parkingLotsSystem.parkVehicle(vehicle3, DriverType.HANDICAP, VehicleColors.RED);
-            parkingLotsSystem.parkVehicle(vehicle4, DriverType.SMALL_VEHICLE, VehicleColors.WHITE);
-            List<Integer> carSlotList = parkingLot.getVehicleByColor(VehicleColors.WHITE);
+            List<Integer> carSlotList = parkingLot.getVehicleByColor("White");
             Assert.assertEquals(3, carSlotList.size());
         } catch (ParkingLotException e) {
             Assert.assertEquals(ParkingLotException.ExceptionType.NO_VEHICLE_FOUND, e.type);
         }
     }
+    //UC13
+    @Test
+    public void givenParkingLot_WhenVehicleIsParked_ShouldFindTheVehicleByDetail() {
+        parkingLot.setLotCapacity(15);
+        ParkingLot parkingLot1 = new ParkingLot(2);
+        parkingLot1.setLotCapacity(12);
+        parkingLotsSystem.addToLot(parkingLot1);
+        parkingLotsSystem.registerParkingLots(owner);
+        Vehicle vehicle7=new Vehicle("MH-28-CV-3321",DriverType.NORMAL,"Blue","Toyota","Modi","nerul");
+        try {
+            parkingLotsSystem.parkVehicle(vehicle, DriverType.NORMAL, VehicleColors.RED);
+            parkingLotsSystem.parkVehicle(vehicle7,DriverType.NORMAL,VehicleColors.BLUE);
+            parkingLotsSystem.parkVehicle(vehicle2, DriverType.LARGE_VEHICLE, VehicleColors.WHITE);
+            parkingLotsSystem.unParkVehicle(vehicle2);
+            parkingLotsSystem.parkVehicle(vehicle3, DriverType.HANDICAP, VehicleColors.RED);
+            List<Integer> carSlotList = parkingLot.getVehicaleByDetail(vehicle7);
+            Assert.assertEquals(2, carSlotList.size());
+        } catch (ParkingLotException e) {
+            Assert.assertEquals(ParkingLotException.ExceptionType.NO_VEHICLE_FOUND, e.type);
+        }
+    }
+
 }
 

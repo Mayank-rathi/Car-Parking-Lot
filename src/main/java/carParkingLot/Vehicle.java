@@ -1,17 +1,19 @@
 package carParkingLot;
 
 import carParkingLot.Enum.DriverType;
+import carParkingLot.Enum.VehicleColors;
 
 public class Vehicle {
 
     public DriverType driverType;
+    public VehicleColors colors;
     public String carColor;
     public String plateNumber;
     public String carManufacturer;
     public String attendantName;
     private String location;
 
-    public Vehicle(DriverType driverType, String carColor, String plateNumber, String carManufacturer, String attendantName, String location) {
+    public Vehicle(String plateNumber,DriverType driverType, String carColor , String carManufacturer, String attendantName, String location) {
         this.driverType = driverType;
         this.carColor = carColor;
         this.plateNumber = plateNumber;

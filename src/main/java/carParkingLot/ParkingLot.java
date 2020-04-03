@@ -6,9 +6,7 @@ import carParkingLot.Exceptions.ParkingLotException;
 import carParkingLot.InformerAndObserver.ParkingLotInformer;
 import carParkingLot.InformerAndObserver.ParkingLotObserver;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -20,7 +18,7 @@ public class ParkingLot {
     ParkingLotInformer lotInformer;
     private ParkingSlot parkingSlot;
     public int autoParkingLocation;
-
+    private Map<Integer, TreeMap<Integer, Vehicle>> parkingLots = new TreeMap<>();
     public ParkingLot(int capacity) {
         setLotCapacity(capacity);
         this.observerList = new ArrayList<>();
@@ -101,10 +99,20 @@ public class ParkingLot {
         return vehicles.size();
     }
 
-    public List<Integer> getVehicleByColor(VehicleColors carColor) {
+    public List<Integer> getVehicleByColor(String carColor) {
         try {
             List<Integer> whiteColorSlot = vehicles.stream().filter(slot -> slot.getVehicle() != null)
                     .filter(slot -> slot.getVehicle().toString().equals(carColor))
+                    .map(parkingSlot -> parkingSlot.getVehicleSlotNumber()).collect(Collectors.toList());
+            return whiteColorSlot;
+        } catch (NullPointerException e) {
+            throw new ParkingLotException("No Vehicle Found", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
+        }
+    }
+    public List<Integer> getVehicaleByDetail(Vehicle vehicle) {
+        try {
+            List<Integer> whiteColorSlot = vehicles.stream().filter(slot -> slot.getVehicle() != null)
+                    .filter(slot -> slot.getVehicle().toString().equals(vehicle))
                     .map(parkingSlot -> parkingSlot.getVehicleSlotNumber()).collect(Collectors.toList());
             return whiteColorSlot;
         } catch (NullPointerException e) {

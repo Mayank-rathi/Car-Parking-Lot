@@ -322,6 +322,7 @@ public class ParkingLotTest {
     @Test
     public void givenParkingAttendant_WhenLargeCareEnter_ShouldAlocateLotWhichHasHighestNumberOfFreeSpace() {
         parkingLot.setLotCapacity(10);
+        parkingLotsSystem.addToLot(parkingLot);
         ParkingLot parkingLot1 = new ParkingLot(2);
         parkingLot1.setLotCapacity(15);
         parkingLotsSystem.addToLot(parkingLot1);
@@ -347,13 +348,10 @@ public class ParkingLotTest {
         ParkingLot parkingLot1 = new ParkingLot(2);
         parkingLot1.setLotCapacity(8);
         parkingLotsSystem.addToLot(parkingLot1);
-
         ParkingLot parkingLot2 = new ParkingLot(2);
         parkingLot2.setLotCapacity(2);
         parkingLotsSystem.addToLot(parkingLot2);
-
         parkingLotsSystem.registerParkingLots(owner);
-
         try {
             parkingLotsSystem.parkVehicle(vehicle2, DriverType.LARGE_VEHICLE);
             parkingLotsSystem.parkVehicle(vehicle3, DriverType.NORMAL);
@@ -372,7 +370,6 @@ public class ParkingLotTest {
         parkingLot1.setLotCapacity(12);
         parkingLotsSystem.addToLot(parkingLot1);
         parkingLotsSystem.registerParkingLots(owner);
-
         try {
             parkingLotsSystem.parkVehicle(vehicle2, DriverType.LARGE_VEHICLE);
             parkingLotsSystem.parkVehicle(vehicle3, DriverType.NORMAL);
@@ -396,8 +393,7 @@ public class ParkingLotTest {
             parkingLotsSystem.parkVehicle(vehicle, DriverType.NORMAL);
             parkingLotsSystem.parkVehicle(vehicle2, DriverType.NORMAL);
             parkingLotsSystem.parkVehicle(vehicle3, DriverType.NORMAL);
-            //parkingLotsSystem.parkVehicle(vehicle5, DriverType.NORMAL);
-            List<Integer> carSlotList = parkingLotsSystem.getVehicleByColor("White");
+            List carSlotList = parkingLotsSystem.getVehicleByColor("White");
             Assert.assertEquals(1, carSlotList.size());
         } catch (ParkingLotException e) {
             Assert.assertEquals(ParkingLotException.ExceptionType.NO_VEHICLE_FOUND, e.type);
@@ -483,5 +479,28 @@ public class ParkingLotTest {
                 Assert.assertEquals(ParkingLotException.ExceptionType.NO_VEHICLE_FOUND, e.type);
             }
         }
+    //UC17
+    @Test
+    public void givenAllVehicles_whenThatAreParked_shouldReturnTotalSlotNumber() {
+        parkingLot.setLotCapacity(10);
+        parkingLotsSystem.addToLot(parkingLot);
+        ParkingLot parkingLot1 = new ParkingLot(2);
+        parkingLot1.setLotCapacity(15);
+        parkingLotsSystem.addToLot(parkingLot1);
+
+        try {
+            parkingLot.parkTheVehicle(vehicle, DriverType.LARGE_VEHICLE);
+            parkingLot.parkTheVehicle(vehicle2, DriverType.NORMAL);
+            parkingLot1.parkTheVehicle(vehicle3, DriverType.SMALL_VEHICLE);
+            parkingLot1.parkTheVehicle(vehicle4, DriverType.NORMAL);
+            parkingLot1.parkTheVehicle(vehicle7, DriverType.NORMAL);
+            parkingLot.unParking(vehicle);
+            parkingLotsSystem.parkVehicle(vehicle, DriverType.SMALL_VEHICLE);
+            int locationParkedVehicle = parkingLot.autoParkingLocation;
+            Assert.assertEquals(8, locationParkedVehicle);
+        } catch (ParkingLotException e) {
+            Assert.assertEquals(ParkingLotException.ExceptionType.PARKING_LOT_FULL, e.type);
+        }
+    }
 }
 

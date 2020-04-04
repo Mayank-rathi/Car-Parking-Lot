@@ -11,7 +11,6 @@ public class ParkingSlot {
         this.vehicle = vehicle;
     }
 
-
     public void setSlot(int slotNumber) {
         this.VehicleSlotNumber = slotNumber;
     }

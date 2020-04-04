@@ -15,7 +15,7 @@ public class Vehicle {
         this.location = location;
     }
 
-    public String getColor() {
+   /* public String getColor() {
         return carColor;
     }
     public String getNumberPlate() {
@@ -28,7 +28,7 @@ public class Vehicle {
     public String getModelName() {
         return carManufacturer;
     }
-
+*/
 
     @Override
     public String toString() {

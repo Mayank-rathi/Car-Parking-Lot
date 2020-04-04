@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class ParkingLotsSystem {
     List<ParkingLot> parkingLotList;
     private List<ParkingSlot> list;
+    public ParkingSlot parkingSlot;
     ParkingLotInformer parkingLotInformer;
     boolean addToLot;
     private int vehicleCount;
@@ -64,7 +65,7 @@ public class ParkingLotsSystem {
     public List<Integer> getVehicleByColor(String carColor) {
         try {
             List<Integer> whiteColorSlot = list.stream().filter(slot -> slot.getVehicle() != null)
-                    .filter(slot -> slot.getVehicle().getColor().equals(carColor))
+                    .filter(slot -> slot.getVehicle().toString().equals(carColor))
                     .map(parkingSlot -> parkingSlot.getVehicleSlotNumber()).collect(Collectors.toList());
             return whiteColorSlot;
         } catch (NullPointerException e) {
@@ -96,13 +97,13 @@ public class ParkingLotsSystem {
 
     public List<Integer> getVehicleByDriverType(DriverType driverType) {
         try {
-            List<Integer> checkForSmallHandicapDriver = list.stream().filter(slot -> slot.getVehicle() != null)
-                    .filter(slot -> slot.getVehicle().getColor().equals(driverType))
+            List<Integer> checkForSmallHandicapDriver = list.stream()
+                    .filter(slot -> slot.getVehicle() != null)
+                    .filter(slot -> slot.getVehicle().toString().equals(driverType))
                     .map(parkingSlot -> parkingSlot.getVehicleSlotNumber()).collect(Collectors.toList());
             return checkForSmallHandicapDriver;
         } catch (NullPointerException e) {
             throw new ParkingLotException("No Vehicle Available", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
         }
     }
-
 }

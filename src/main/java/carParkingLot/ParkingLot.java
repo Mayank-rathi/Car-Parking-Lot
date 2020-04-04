@@ -20,7 +20,7 @@ public class ParkingLot {
     ParkingLotInformer lotInformer;
     private ParkingSlot parkingSlot;
     public int autoParkingLocation;
-    private int vehicleCount;
+    private int autoVehicleCount;
 
 
     public ParkingLot(int capacity) {
@@ -30,7 +30,7 @@ public class ParkingLot {
     }
 
     public int getParkVehicleCount() {
-        return vehicleCount;
+        return autoVehicleCount;
     }
 
     public String getWelcomeMessage() {
@@ -61,9 +61,9 @@ public class ParkingLot {
     public void getAutoParkingLocation(Vehicle vehicle, DriverType driverType) {
         autoParkingLocation = (int) parkingAttender(driverType);
         this.vehicles.set(autoParkingLocation, parkingSlot);
-        vehicleCount++;
-        parkingSlot.setVehicleAndTime(vehicle);
-        parkingSlot.setSlot(vehicleCount);
+        autoVehicleCount++;
+        parkingSlot.setVehicleAndTimeDate(vehicle);
+        parkingSlot.setSlot(autoVehicleCount);
     }
 
     public ArrayList<Integer> getEmptyParkingSlot() {

@@ -32,7 +32,7 @@ public class ParkingSlot {
         return parkingTime;
     }
 
-    public void setVehicleAndTime(Vehicle vehicle) {
+    public void setVehicleAndTimeDate(Vehicle vehicle) {
         this.vehicle = vehicle;
         this.parkingTime = LocalDateTime.now();
     }

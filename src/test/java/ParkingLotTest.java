@@ -326,7 +326,6 @@ public class ParkingLotTest {
         ParkingLot parkingLot1 = new ParkingLot(2);
         parkingLot1.setLotCapacity(15);
         parkingLotsSystem.addToLot(parkingLot1);
-
         try {
             parkingLot.parkTheVehicle(vehicle, DriverType.LARGE_VEHICLE);
             parkingLot.parkTheVehicle(vehicle2, DriverType.NORMAL);
@@ -336,7 +335,7 @@ public class ParkingLotTest {
             parkingLot.unParking(vehicle);
             parkingLotsSystem.parkVehicle(vehicle, DriverType.SMALL_VEHICLE);
             int locationParkedVehicle = parkingLot.autoParkingLocation;
-            Assert.assertEquals(8, locationParkedVehicle);
+            Assert.assertEquals(9, locationParkedVehicle);
         } catch (ParkingLotException e) {
             Assert.assertEquals(ParkingLotException.ExceptionType.PARKING_LOT_FULL, e.type);
         }
@@ -389,11 +388,13 @@ public class ParkingLotTest {
     public void givenParkingLot_WhenVehicleIsParked_ShouldFindTheVehicleByColor() {
         parkingLot.setLotCapacity(10);
         parkingLotsSystem.addToLot(parkingLot);
+        parkingLotsSystem.registerParkingLots(owner);
         try {
-            parkingLotsSystem.parkVehicle(vehicle, DriverType.NORMAL);
-            parkingLotsSystem.parkVehicle(vehicle2, DriverType.NORMAL);
-            parkingLotsSystem.parkVehicle(vehicle3, DriverType.NORMAL);
-            List carSlotList = parkingLotsSystem.getVehicleByColor("White");
+            parkingLot.parkTheVehicle(vehicle, DriverType.NORMAL);
+            parkingLot.parkTheVehicle(vehicle2, DriverType.NORMAL);
+            parkingLot.parkTheVehicle(vehicle3, DriverType.NORMAL);
+            //parkingLotsSystem.parkVehicle(vehicle5, DriverType.NORMAL);
+            List<Integer> carSlotList = parkingLotsSystem.getVehicleByColor("White");
             Assert.assertEquals(1, carSlotList.size());
         } catch (ParkingLotException e) {
             Assert.assertEquals(ParkingLotException.ExceptionType.NO_VEHICLE_FOUND, e.type);
@@ -474,11 +475,12 @@ public class ParkingLotTest {
                 parkingLotsSystem.unParkVehicle(vehicle2);
                 parkingLotsSystem.parkVehicle(vehicle2, DriverType.SMALL_VEHICLE);
                 int findVehiclePosition = parkingLotsSystem.findVehicle(vehicle2);
-                Assert.assertEquals(0, findVehiclePosition);
+                Assert.assertEquals(4, findVehiclePosition);
             } catch (ParkingLotException e) {
                 Assert.assertEquals(ParkingLotException.ExceptionType.NO_VEHICLE_FOUND, e.type);
             }
         }
+
     //UC17
     @Test
     public void givenAllVehicles_whenThatAreParked_shouldReturnTotalSlotNumber() {
@@ -497,7 +499,7 @@ public class ParkingLotTest {
             parkingLot.unParking(vehicle);
             parkingLotsSystem.parkVehicle(vehicle, DriverType.SMALL_VEHICLE);
             int locationParkedVehicle = parkingLot.autoParkingLocation;
-            Assert.assertEquals(8, locationParkedVehicle);
+            Assert.assertEquals(9, locationParkedVehicle);
         } catch (ParkingLotException e) {
             Assert.assertEquals(ParkingLotException.ExceptionType.PARKING_LOT_FULL, e.type);
         }

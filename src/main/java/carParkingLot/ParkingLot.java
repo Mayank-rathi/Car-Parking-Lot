@@ -25,7 +25,6 @@ public class ParkingLot {
 
     public ParkingLot(int capacity) {
         setLotCapacity(capacity);
-        this.parkingSlots=new ArrayList<>();
         this.observerList = new ArrayList<>();
         lotInformer = new ParkingLotInformer();
     }
@@ -39,7 +38,6 @@ public class ParkingLot {
     }
 
     public boolean parkTheVehicle(Vehicle vehicle, DriverType driverType) throws ParkingLotException {
-        parkingSlot = new ParkingSlot(vehicle);
         if (isVehicleParked(vehicle))
             throw new ParkingLotException("This Vehicle Is Already Parked", ParkingLotException.ExceptionType.VEHICLE_IS_ALREADY_PARK);
         if (parkingSlots.size() == actualCapacity && !parkingSlots.contains(null)) {
@@ -94,11 +92,16 @@ public class ParkingLot {
     public Integer parkingAttender(DriverType driverType) {
             if(DriverType.HANDICAP.equals(driverType))
                 return getEmptyParkingSlot().stream().sorted().collect(Collectors.toList()).get(0);
-        if(DriverType.NORMAL.equals(driverType))
-            return getEmptyParkingSlot().stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()).get(0);
         if (DriverType.LARGE_VEHICLE.equals(driverType))
-            return getEmptyParkingSlot().stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()).get(0);
-            return getEmptyParkingSlot().stream().sorted().collect(Collectors.toList()).get(0);
+            return largeVehiclePlaceAtParkingLot();
+        return getEmptyParkingSlot().stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()).get(0);
+    }
+
+    public int largeVehiclePlaceAtParkingLot() {
+        for (int checkPlaceToPark = 0; checkPlaceToPark < parkingSlots.size(); checkPlaceToPark++)
+            if (parkingSlots.get(checkPlaceToPark) == null && parkingSlots.get(checkPlaceToPark + 1) == null && parkingSlots.get(checkPlaceToPark + 2) == null)
+                return checkPlaceToPark + 2;
+        return getEmptyParkingSlot().stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()).get(0);
     }
 
     public void setLotCapacity(int capacity) {
@@ -125,5 +128,4 @@ public class ParkingLot {
             throw new ParkingLotException("No Vehicle Available", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
         }
     }
-
 }

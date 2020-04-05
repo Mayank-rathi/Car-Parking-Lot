@@ -8,14 +8,14 @@ public class Vehicle {
     public String location;
 
     public Vehicle(String plateNumber, String carColor , String carManufacturer, String attendantName, String location) {
-        this.carColor = carColor;
         this.plateNumber = plateNumber;
+        this.carColor = carColor;
         this.carManufacturer = carManufacturer;
         this.attendantName = attendantName;
         this.location = location;
     }
 
-   /* public String getColor() {
+    public String getColor() {
         return carColor;
     }
     public String getNumberPlate() {
@@ -28,7 +28,6 @@ public class Vehicle {
     public String getModelName() {
         return carManufacturer;
     }
-*/
 
     @Override
     public String toString() {

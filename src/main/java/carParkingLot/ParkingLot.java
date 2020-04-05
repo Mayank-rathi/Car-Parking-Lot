@@ -83,11 +83,6 @@ public class ParkingLot {
         throw new ParkingLotException("NO VEHICLE.", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
     }
 
-    public int findByColor(Vehicle color){
-        if (this.parkingSlots.contains(color))
-            return this.parkingSlots.indexOf(color);
-        throw new ParkingLotException("VEHICLE IS NOT AVAILABLE", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
-    }
 
     public Integer parkingAttender(DriverType driverType) {
             if(DriverType.HANDICAP.equals(driverType))
@@ -128,4 +123,45 @@ public class ParkingLot {
             throw new ParkingLotException("No Vehicle Available", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
         }
     }
+    public ArrayList<Integer> findCarByColour(String colour) {
+        try {
+            ArrayList<Integer> carColour = new ArrayList<>();
+            for (int getCarColour = 0; getCarColour < this.parkingSlots.size(); getCarColour++)
+                if ((this.parkingSlots.get(getCarColour) != null))
+                    if (this.parkingSlots.get(getCarColour).vehicle.getColor().equals(colour))
+                        carColour.add(getCarColour);
+            return carColour;
+        } catch (ParkingLotException e) {
+            throw new ParkingLotException("This colour Vehicle not Found", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
+        }
+    }
+    public List<String> findCarByColourAndCarBrand(String carsColour, String carsType) {
+        try {
+            List<String> carColour = new ArrayList<>();
+            carColour = this.parkingSlots.stream()
+                    .filter(parkingSlot -> parkingSlot != null)
+                    .filter(parkingSlot -> parkingSlot.getVehicle().getColor().equals(carsColour))
+                    .filter(parkingSlot -> parkingSlot.getVehicle().carManufacturer.equals(carsType))
+                    .map(parkingSlot -> parkingSlot.getVehicle().getNumberPlate())
+                    .collect(Collectors.toList());
+            System.out.println("vehicles data " + carColour);
+            return carColour;
+        } catch (ParkingLotException e) {
+            throw new ParkingLotException("No Such Vehicle Available", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
+        }
+    }
+    public List<String> findCarByCarBrand(String carsType) {
+        try {
+            List<String> carCompany = new ArrayList<>();
+            carCompany = this.parkingSlots.stream()
+                    .filter(parkingSlot -> parkingSlot != null)
+                    .filter(parkingSlot -> parkingSlot.getVehicle().carManufacturer.equals(carsType))
+                    .map(parkingSlot -> parkingSlot.getVehicle().getNumberPlate())
+                    .collect(Collectors.toList());
+            return carCompany;
+        } catch (ParkingLotException e) {
+            throw new ParkingLotException("No Vehicle Available", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
+        }
+    }
+
 }

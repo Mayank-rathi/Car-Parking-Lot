@@ -61,48 +61,4 @@ public class ParkingLotsSystem {
         throw new ParkingLotException("Vehicle Not Available", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
     }
 
-    public List<Integer> getVehicleByColor(String carColor) {
-        try {
-            List<Integer> whiteColorSlot = list.stream().filter(slot -> slot.getVehicle() != null)
-                    .filter(slot -> slot.getVehicle().getColor()    .equals(carColor))
-                    .map(parkingSlot -> parkingSlot.getVehicleSlotNumber()).collect(Collectors.toList());
-            return whiteColorSlot;
-        } catch (NullPointerException e) {
-            throw new ParkingLotException("No Such Vehicle In Lot", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
-        }
-    }
-
-    public List<Integer> getVehicleByNumberPlate(String plateNumber) {
-        try {
-            List<Integer> numberPlate = list.stream().filter(slot -> slot.getVehicle() != null)
-                    .filter(slot -> slot.getVehicle().toString().equals(plateNumber))
-                    .map(parkingSlot -> parkingSlot.getVehicleSlotNumber()).collect(Collectors.toList());
-            return numberPlate;
-        } catch (NullPointerException e) {
-            throw new ParkingLotException("No Vehicle Available", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
-        }
-    }
-
-    public List<Integer> getVehicleByCarManufacturer(String carManufacturer) {
-        try {
-            List<Integer> manufacturer = list.stream().filter(slot -> slot.getVehicle() != null)
-                    .filter(slot -> slot.getVehicle().toString().equals(carManufacturer))
-                    .map(parkingSlot -> parkingSlot.getVehicleSlotNumber()).collect(Collectors.toList());
-            return manufacturer;
-        } catch (NullPointerException e) {
-            throw new ParkingLotException("No Vehicle Available", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
-        }
-    }
-
-    public List<Integer> getVehicleByDriverType(DriverType driverType) {
-        try {
-            List<Integer> checkForSmallHandicapDriver = list.stream().filter(slot -> slot.getVehicle() != null)
-                    .filter(slot -> slot.getVehicle().toString().equals(driverType))
-                    .map(parkingSlot -> parkingSlot.getVehicleSlotNumber()).collect(Collectors.toList());
-            return checkForSmallHandicapDriver;
-        } catch (NullPointerException e) {
-            throw new ParkingLotException("No Vehicle Available", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
-        }
-    }
-
 }

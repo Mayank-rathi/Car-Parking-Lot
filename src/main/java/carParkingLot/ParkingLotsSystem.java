@@ -4,6 +4,9 @@ import carParkingLot.Enum.DriverType;
 import carParkingLot.Exceptions.ParkingLotException;
 import carParkingLot.InformerAndObserver.ParkingLotInformer;
 import carParkingLot.InformerAndObserver.ParkingLotObserver;
+import carParkingLot.ParkingConcept.ParkingLot;
+import carParkingLot.ParkingConcept.ParkingSlot;
+import carParkingLot.ParkingConcept.Vehicle;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -28,7 +31,7 @@ public class ParkingLotsSystem {
 
     public boolean parkVehicle(Vehicle vehicle, DriverType type) {
         ParkingLot lot = getParkingLotIfAvailableSpace();
-        boolean parkedVehicle = lot.parkTheVehicle(vehicle, type);
+        boolean parkedVehicle = lot.parking(vehicle, type);
         return parkedVehicle;
     }
 

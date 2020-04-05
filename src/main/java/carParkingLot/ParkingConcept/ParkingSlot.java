@@ -1,4 +1,4 @@
-package carParkingLot;
+package carParkingLot.ParkingConcept;
 
 import java.time.LocalDateTime;
 

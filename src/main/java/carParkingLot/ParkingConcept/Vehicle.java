@@ -1,4 +1,4 @@
-package carParkingLot;
+package carParkingLot.ParkingConcept;
 
 public class Vehicle {
     public String carColor;
@@ -27,16 +27,5 @@ public class Vehicle {
 
     public String getModelName() {
         return carManufacturer;
-    }
-
-    @Override
-    public String toString() {
-        return "Vehicle{" +
-                "carColor='" + carColor + '\'' +
-                ", plateNumber='" + plateNumber + '\'' +
-                ", carManufacturer='" + carManufacturer + '\'' +
-                ", attendantName='" + attendantName + '\'' +
-                ", location='" + location + '\'' +
-                '}';
     }
 }

@@ -1,6 +1,7 @@
 package carParkingLot.ParkingConcept;
 
 import carParkingLot.Enum.DriverType;
+import carParkingLot.Enum.VehicleType;
 import carParkingLot.Exceptions.ParkingLotException;
 import carParkingLot.InformerAndObserver.ParkingLotInformer;
 import carParkingLot.InformerAndObserver.ParkingLotObserver;
@@ -37,14 +38,14 @@ public class ParkingLot {
         return "Welcome";
     }
 
-    public boolean parking(Vehicle vehicle, DriverType driverType) throws ParkingLotException {
+    public boolean parking(Vehicle vehicle, DriverType driverType, VehicleType vehicleType) throws ParkingLotException {
         if (isVehicleParked(vehicle))
             throw new ParkingLotException("This Vehicle Is Already Parked", ParkingLotException.ExceptionType.VEHICLE_IS_ALREADY_PARK);
         if (parkingSlots.size() == actualCapacity && !parkingSlots.contains(null)) {
             lotInformer.notifyParkingFull();
             throw new ParkingLotException("No Parking Space Available!!!", ParkingLotException.ExceptionType.PARKING_LOT_FULL);
         }
-        getAutoParkingLocation(vehicle, driverType);
+        getAutoParkingLocation(vehicle, driverType,vehicleType);
         return true;
     }
 
@@ -57,8 +58,8 @@ public class ParkingLot {
         throw new ParkingLotException("VEHICLE IS NOT AVAILABLE", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
     }
 
-    public void getAutoParkingLocation(Vehicle vehicle, DriverType driverType) {
-        autoParkingLocation = (int) parkingAttender(driverType);
+    public void getAutoParkingLocation(Vehicle vehicle, DriverType driverType,VehicleType vehicleType) {
+        autoParkingLocation = (int) parkingAttender(driverType,vehicleType);
         this.parkingSlots.set(autoParkingLocation, parkingSlot);
         autoVehicleCount++;
         parkingSlot.setVehicleAndTimeDate(vehicle);
@@ -83,10 +84,10 @@ public class ParkingLot {
     }
 
 
-    public Integer parkingAttender(DriverType driverType) {
+    public Integer parkingAttender(DriverType driverType , VehicleType vehicleType) {
             if(DriverType.HANDICAP.equals(driverType))
                 return getEmptyParkingSlot().stream().sorted().collect(Collectors.toList()).get(0);
-        if (DriverType.LARGE_VEHICLE.equals(driverType))
+        if (VehicleType.LARGE.equals(vehicleType))
             return largeVehiclePlaceAtParkingLot();
         return getEmptyParkingSlot().stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()).get(0);
     }

@@ -1,11 +1,12 @@
 package MockitTesting;
 
 import carParkingLot.Enum.DriverType;
+import carParkingLot.Enum.VehicleType;
 import carParkingLot.Exceptions.ParkingLotException;
 import carParkingLot.Handler.ParkingLotOwner;
 import carParkingLot.ParkingConcept.ParkingLot;
-import carParkingLot.ParkingLotsSystem;
 import carParkingLot.ParkingConcept.Vehicle;
+import carParkingLot.ParkingLotsSystem;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -40,10 +41,10 @@ public class ParkingLotTest {
     @Test
     public void called_ParkFunction_ShouldParkTheVehicle() {
         doAnswer((Answer<Void>) invocationOnMock -> {
-            parkingLot.parking(vehicle, DriverType.NORMAL);
+            parkingLot.parking(vehicle, DriverType.NORMAL, VehicleType.SMALL);
             return null;
-        }).when(parkingLotsSystem).parkVehicle(vehicle, DriverType.NORMAL);
-        boolean isParked = parkingLot.parking(vehicle, DriverType.NORMAL);
+        }).when(parkingLotsSystem).parkVehicle(vehicle, DriverType.NORMAL,VehicleType.SMALL);
+        boolean isParked = parkingLot.parking(vehicle, DriverType.NORMAL,VehicleType.SMALL);
         assertTrue(isParked);
     }
 

@@ -1,11 +1,12 @@
 package MockitTesting;
 
 import carParkingLot.Enum.DriverType;
+import carParkingLot.Enum.VehicleType;
 import carParkingLot.Exceptions.ParkingLotException;
 import carParkingLot.Handler.ParkingLotOwner;
 import carParkingLot.ParkingConcept.ParkingLot;
-import carParkingLot.ParkingLotsSystem;
 import carParkingLot.ParkingConcept.Vehicle;
+import carParkingLot.ParkingLotsSystem;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -55,7 +56,7 @@ public class ParkingLotExceptionTest {
 
     @Test
     public void anotherObjectPassedToParkFunction_ParkingLotFullException_ThrowAnException() {
-        when(parkingLot.parking(any(), any())).thenAnswer(
+        when(parkingLot.parking(any(), any(),any())).thenAnswer(
                 (Answer) invocation -> {
                     if (invocation.getArgument(0) == vehicle) {
                         throw new ParkingLotException("", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
@@ -63,7 +64,7 @@ public class ParkingLotExceptionTest {
                     throw new ParkingLotException("", ParkingLotException.ExceptionType.PARKING_LOT_FULL);
                 });
         try {
-            parkingLot.parking(new Vehicle("MH-27-BC3386", "Red", "BMW", "XYZ", "Nagpur"), DriverType.NORMAL);
+            parkingLot.parking(new Vehicle("MH-27-BC3386", "Red", "BMW", "XYZ", "Nagpur"), DriverType.NORMAL, VehicleType.SMALL);
         } catch (ParkingLotException e) {
             Assert.assertEquals(ParkingLotException.ExceptionType.NO_VEHICLE_FOUND, e.type);
         }
@@ -71,7 +72,7 @@ public class ParkingLotExceptionTest {
 
     @Test
     public void vehicleObjectPassedToParkFunction_VehicleAlReadyParkedException_ThrowAnException() {
-        when(parkingLot.parking(any(), any())).thenAnswer(
+        when(parkingLot.parking(any(), any(),any())).thenAnswer(
                 (Answer) invocation -> {
                     if (invocation.getArgument(0).equals(vehicle)) {
                         throw new ParkingLotException("Vehicle is already parked", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
@@ -79,7 +80,7 @@ public class ParkingLotExceptionTest {
                     throw new ParkingLotException("", ParkingLotException.ExceptionType.PARKING_LOT_FULL);
                 });
         try {
-            parkingLot.parking(vehicle, DriverType.NORMAL);
+            parkingLot.parking(vehicle, DriverType.NORMAL,VehicleType.SMALL);
         } catch (ParkingLotException e) {
             Assert.assertEquals(ParkingLotException.ExceptionType.NO_VEHICLE_FOUND, e.type);
         }

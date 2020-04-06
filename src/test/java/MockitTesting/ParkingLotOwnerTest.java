@@ -37,8 +37,8 @@ public class ParkingLotOwnerTest {
         doAnswer((Answer<Void>) invocationOnMock -> {
             parkingLotOwner.setParkingCapacityFull();
             return null;
-        }).when(parkingLot).parking(vehicle, DriverType.NORMAL,VehicleType.SMALL);
-        parkingLot.parking(vehicle, DriverType.NORMAL,VehicleType.SMALL);
+        }).when(parkingLot).park(vehicle, DriverType.NORMAL,VehicleType.SMALL);
+        parkingLot.park(vehicle, DriverType.NORMAL,VehicleType.SMALL);
         Assert.assertTrue(parkingLotOwner.isFullCapacity());
     }
 
@@ -47,15 +47,15 @@ public class ParkingLotOwnerTest {
         doAnswer(invocationOnMock -> {
             parkingLotOwner.isLotSpaceAvailable();
             return null;
-        }).when(parkingLot).parking(vehicle, DriverType.NORMAL, VehicleType.SMALL);
-        parkingLot.parking(vehicle, DriverType.NORMAL,VehicleType.SMALL);
+        }).when(parkingLot).park(vehicle, DriverType.NORMAL, VehicleType.SMALL);
+        parkingLot.park(vehicle, DriverType.NORMAL,VehicleType.SMALL);
         Assert.assertFalse(parkingLotOwner.isSpaceAvailable());
     }
 
     @Test
     public void givenParkingLot_WhenVehicleParked_ShouldReturnTrue() {
-        when(parkingLot.parking(vehicle, DriverType.NORMAL,VehicleType.SMALL)).thenReturn(true);
-        boolean isParked = parkingLot.parking(this.vehicle, DriverType.NORMAL,VehicleType.SMALL);
+        when(parkingLot.park(vehicle, DriverType.NORMAL,VehicleType.SMALL)).thenReturn(true);
+        boolean isParked = parkingLot.park(this.vehicle, DriverType.NORMAL,VehicleType.SMALL);
         Assert.assertTrue(isParked);
     }
 }

@@ -38,8 +38,8 @@ public class AirportSecurityStaffTest {
         doAnswer((Answer<Void>) invocationOnMock -> {
             airPortSecurityStaff.setParkingCapacityFull();
             return null;
-        }).when(parkingLot).parking(vehicle, DriverType.NORMAL, VehicleType.SMALL);
-        parkingLot.parking(vehicle, DriverType.NORMAL,VehicleType.SMALL);
+        }).when(parkingLot).park(vehicle, DriverType.NORMAL, VehicleType.SMALL);
+        parkingLot.park(vehicle, DriverType.NORMAL,VehicleType.SMALL);
         Assert.assertTrue(airPortSecurityStaff.isFullCapacity());
     }
 
@@ -48,8 +48,8 @@ public class AirportSecurityStaffTest {
         doAnswer(invocationOnMock -> {
             airPortSecurityStaff.isLotSpaceAvailable();
             return null;
-        }).when(parkingLot).parking(vehicle, DriverType.NORMAL,VehicleType.SMALL);
-        parkingLot.parking(vehicle, DriverType.NORMAL,VehicleType.SMALL);
+        }).when(parkingLot).park(vehicle, DriverType.NORMAL,VehicleType.SMALL);
+        parkingLot.park(vehicle, DriverType.NORMAL,VehicleType.SMALL);
         Assert.assertTrue(airPortSecurityStaff.isSpaceAvailable());
     }
 }

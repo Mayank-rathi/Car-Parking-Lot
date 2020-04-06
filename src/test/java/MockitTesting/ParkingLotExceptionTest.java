@@ -40,7 +40,7 @@ public class ParkingLotExceptionTest {
 
     @Test
     public void newObjectPassedToUnParkFunctionNotMatchesVehicleObject_VehicleNotFoundException_ThrowVehicleNotFoundException() {
-        when(parkingLot.unParking(any())).thenAnswer(
+        when(parkingLot.unPark(any())).thenAnswer(
                 (Answer) invocation -> {
                     if (invocation.getArgument(0) == vehicle) {
                         return "vehicle is unParked";
@@ -48,7 +48,7 @@ public class ParkingLotExceptionTest {
                     throw new ParkingLotException("", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
                 });
         try {
-            parkingLot.unParking(new Vehicle("MH-27-BC3386", "Red", "BMW", "XYZ", "Nagpur"));
+            parkingLot.unPark(new Vehicle("MH-27-BC3386", "Red", "BMW", "XYZ", "Nagpur"));
         } catch (ParkingLotException e) {
             Assert.assertEquals(ParkingLotException.ExceptionType.NO_VEHICLE_FOUND, e.type);
         }
@@ -56,7 +56,7 @@ public class ParkingLotExceptionTest {
 
     @Test
     public void anotherObjectPassedToParkFunction_ParkingLotFullException_ThrowAnException() {
-        when(parkingLot.parking(any(), any(),any())).thenAnswer(
+        when(parkingLot.park(any(), any(),any())).thenAnswer(
                 (Answer) invocation -> {
                     if (invocation.getArgument(0) == vehicle) {
                         throw new ParkingLotException("", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
@@ -64,7 +64,7 @@ public class ParkingLotExceptionTest {
                     throw new ParkingLotException("", ParkingLotException.ExceptionType.PARKING_LOT_FULL);
                 });
         try {
-            parkingLot.parking(new Vehicle("MH-27-BC3386", "Red", "BMW", "XYZ", "Nagpur"), DriverType.NORMAL, VehicleType.SMALL);
+            parkingLot.park(new Vehicle("MH-27-BC3386", "Red", "BMW", "XYZ", "Nagpur"), DriverType.NORMAL, VehicleType.SMALL);
         } catch (ParkingLotException e) {
             Assert.assertEquals(ParkingLotException.ExceptionType.NO_VEHICLE_FOUND, e.type);
         }
@@ -72,7 +72,7 @@ public class ParkingLotExceptionTest {
 
     @Test
     public void vehicleObjectPassedToParkFunction_VehicleAlReadyParkedException_ThrowAnException() {
-        when(parkingLot.parking(any(), any(),any())).thenAnswer(
+        when(parkingLot.park(any(), any(),any())).thenAnswer(
                 (Answer) invocation -> {
                     if (invocation.getArgument(0).equals(vehicle)) {
                         throw new ParkingLotException("Vehicle is already parked", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
@@ -80,7 +80,7 @@ public class ParkingLotExceptionTest {
                     throw new ParkingLotException("", ParkingLotException.ExceptionType.PARKING_LOT_FULL);
                 });
         try {
-            parkingLot.parking(vehicle, DriverType.NORMAL,VehicleType.SMALL);
+            parkingLot.park(vehicle, DriverType.NORMAL,VehicleType.SMALL);
         } catch (ParkingLotException e) {
             Assert.assertEquals(ParkingLotException.ExceptionType.NO_VEHICLE_FOUND, e.type);
         }

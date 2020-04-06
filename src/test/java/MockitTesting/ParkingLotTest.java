@@ -41,10 +41,10 @@ public class ParkingLotTest {
     @Test
     public void called_ParkFunction_ShouldParkTheVehicle() {
         doAnswer((Answer<Void>) invocationOnMock -> {
-            parkingLot.parking(vehicle, DriverType.NORMAL, VehicleType.SMALL);
+            parkingLot.park(vehicle, DriverType.NORMAL, VehicleType.SMALL);
             return null;
         }).when(parkingLotsSystem).parkVehicle(vehicle, DriverType.NORMAL,VehicleType.SMALL);
-        boolean isParked = parkingLot.parking(vehicle, DriverType.NORMAL,VehicleType.SMALL);
+        boolean isParked = parkingLot.park(vehicle, DriverType.NORMAL,VehicleType.SMALL);
         assertTrue(isParked);
     }
 

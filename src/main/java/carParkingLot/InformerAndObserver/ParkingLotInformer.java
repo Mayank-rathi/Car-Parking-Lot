@@ -10,7 +10,7 @@ public class ParkingLotInformer {
         observersList = new ArrayList<>();
     }
 
-    public void notifyParkingFull() {
+    public void notifyIfParkingFull() {
         for (ParkingLotObserver observers : observersList)
             observers.setParkingCapacityFull();
     }

@@ -32,14 +32,17 @@ public class ParkingLotsSystem {
 
     public boolean parkVehicle(Vehicle vehicle, DriverType type, VehicleType vehicleType) {
         ParkingLot lot = getParkingLotIfAvailableSpace();
-        boolean parkedVehicle = lot.parking(vehicle, type,vehicleType);
+        boolean parkedVehicle = lot.park(vehicle, type, vehicleType);
         return parkedVehicle;
     }
 
     public ParkingLot getParkingLotIfAvailableSpace() {
-        return parkingLotList.stream().sorted(Comparator.comparing(parkingLotList -> parkingLotList.getEmptyParkingSlot().size(),
-                Comparator.reverseOrder())).collect(Collectors.toList()).get(0);
+        return parkingLotList.stream()
+                .sorted(Comparator.comparing(parkingLotList -> parkingLotList.getEmptyParkingSlotForVehicle().size(),
+                        Comparator.reverseOrder()))
+                .collect(Collectors.toList()).get(0);
     }
+
     public int findVehicle(Vehicle vehicle) {
         for (ParkingLot parkingLot : this.parkingLotList)
             return parkingLot.findVehicle(vehicle);
@@ -53,16 +56,16 @@ public class ParkingLotsSystem {
 
     public boolean unParkVehicle(Vehicle vehicle) throws ParkingLotException {
         for (ParkingLot parkingLot : this.parkingLotList) {
-            return parkingLot.unParking(vehicle);
+            return parkingLot.unPark(vehicle);
         }
         throw new ParkingLotException("No Such Vehicle In Lot", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
     }
+
     public boolean CheckVehicleParked(Vehicle vehicle) {
         for (ParkingLot parkingLots : this.parkingLotList) {
-            if (parkingLots.isVehicleParked(vehicle))
+            if (parkingLots.CheckVehicleParked(vehicle))
                 return true;
         }
         throw new ParkingLotException("Vehicle Not Available", ParkingLotException.ExceptionType.NO_VEHICLE_FOUND);
     }
-
 }
